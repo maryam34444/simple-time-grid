@@ -44,3 +44,10 @@ Throws on: non-number inputs, `NaN`, `start > end`, `intervalMs <= 0`, or a brea
 ### `isWithinBreak(ts, breakStart, breakEnd)` → `boolean`
 
 Returns `true` if `breakStart <= ts < breakEnd`. Exposed because it's the same predicate the grid uses internally and you may want it for ad-hoc checks.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
